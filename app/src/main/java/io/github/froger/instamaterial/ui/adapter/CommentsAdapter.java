@@ -1,4 +1,4 @@
-package io.github.froger.instamaterial.adapter;
+package io.github.froger.instamaterial.ui.adapter;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

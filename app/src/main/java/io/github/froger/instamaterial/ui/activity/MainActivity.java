@@ -19,7 +19,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.github.froger.instamaterial.R;
 import io.github.froger.instamaterial.Utils;
-import io.github.froger.instamaterial.adapter.FeedAdapter;
+import io.github.froger.instamaterial.ui.adapter.FeedAdapter;
 
 public class MainActivity extends AppCompatActivity
 	implements FeedAdapter.OnFeedItemClickListener {

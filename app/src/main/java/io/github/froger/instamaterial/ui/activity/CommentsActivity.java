@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.github.froger.instamaterial.R;
-import io.github.froger.instamaterial.adapter.CommentsAdapter;
+import io.github.froger.instamaterial.ui.adapter.CommentsAdapter;
 
 /**
  * Created by PLUUSYSTEM-NEW on 2015-10-31.

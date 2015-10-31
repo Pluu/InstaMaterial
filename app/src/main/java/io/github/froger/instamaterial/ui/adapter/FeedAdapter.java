@@ -1,4 +1,4 @@
-package io.github.froger.instamaterial.adapter;
+package io.github.froger.instamaterial.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
