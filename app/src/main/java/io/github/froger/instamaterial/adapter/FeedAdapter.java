@@ -11,18 +11,26 @@ import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.github.froger.instamaterial.R;
-import io.github.froger.instamaterial.SquaredImageView;
+import io.github.froger.instamaterial.ui.view.SquaredImageView;
 import io.github.froger.instamaterial.Utils;
 
 /**
  * Created by PLUUSYSTEM-NEW on 2015-10-19.
  */
-public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+	implements View.OnClickListener {
+
+	public interface OnFeedItemClickListener {
+		public void onCommentsClick(View v, int position);
+	}
+
 	private static final int ANIMATED_ITEMS_COUNT = 2;
 
 	private Context context;
 	private int lastAnimatedPosition = -1;
 	private int itemsCount = 0;
+
+	private OnFeedItemClickListener onFeedItemClickListener;
 
 	public FeedAdapter(Context context) {
 		this.context = context;
@@ -61,6 +69,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 			holder.ivFeedCenter.setImageResource(R.drawable.img_feed_center_2);
 			holder.ivFeedBottom.setImageResource(R.drawable.img_feed_bottom_2);
 		}
+		holder.ivFeedBottom.setOnClickListener(this);
+		holder.ivFeedBottom.setTag(position);
 	}
 
 	@Override
@@ -84,4 +94,18 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		itemsCount = 10;
 		notifyDataSetChanged();
 	}
+
+	@Override
+	public void onClick(View v) {
+		if (v.getId() == R.id.ivFeedBottom) {
+			if (onFeedItemClickListener != null) {
+				onFeedItemClickListener.onCommentsClick(v, (Integer) v.getTag());
+			}
+		}
+	}
+
+	public void setOnFeedItemClickListener(OnFeedItemClickListener onFeedItemClickListener) {
+		this.onFeedItemClickListener = onFeedItemClickListener;
+	}
+
 }

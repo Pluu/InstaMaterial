@@ -1,7 +1,8 @@
-package io.github.froger.instamaterial.ui;
+package io.github.froger.instamaterial.ui.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,7 +21,8 @@ import io.github.froger.instamaterial.R;
 import io.github.froger.instamaterial.Utils;
 import io.github.froger.instamaterial.adapter.FeedAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+	implements FeedAdapter.OnFeedItemClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 		rvFeed.setLayoutManager(linearLayoutManager);
 		feedAdapter = new FeedAdapter(this);
+		feedAdapter.setOnFeedItemClickListener(this);
 		rvFeed.setAdapter(feedAdapter);
 	}
 
@@ -117,6 +121,20 @@ public class MainActivity extends AppCompatActivity {
 				 .setDuration(ANIM_DURATION_FAB)
 				 .start();
 		feedAdapter.updateItems();
+	}
+
+	@Override
+	public void onCommentsClick(View v, int position) {
+		final Intent intent = new Intent(this, CommentsActivity.class);
+
+		//Get location on screen for tapped view
+		int[] startingLocation = new int[2];
+		v.getLocationOnScreen(startingLocation);
+		intent.putExtra(CommentsActivity.ARG_DRAWING_START_LOCATION, startingLocation[1]);
+
+		startActivity(intent);
+		//Disable enter transition for new Acitvity
+		overridePendingTransition(0, 0);
 	}
 
 }
