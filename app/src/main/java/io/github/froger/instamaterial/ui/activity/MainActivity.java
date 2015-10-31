@@ -1,4 +1,4 @@
-package io.github.froger.instamaterial.ui;
+package io.github.froger.instamaterial.ui.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -17,7 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.github.froger.instamaterial.R;
 import io.github.froger.instamaterial.Utils;
-import io.github.froger.instamaterial.adapter.FeedAdapter;
+import io.github.froger.instamaterial.ui.adapter.FeedAdapter;
 
 public class MainActivity extends AppCompatActivity {
 

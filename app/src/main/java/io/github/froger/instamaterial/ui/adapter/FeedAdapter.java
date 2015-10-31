@@ -1,4 +1,4 @@
-package io.github.froger.instamaterial.adapter;
+package io.github.froger.instamaterial.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.github.froger.instamaterial.R;
-import io.github.froger.instamaterial.SquaredImageView;
+import io.github.froger.instamaterial.ui.view.SquaredImageView;
 import io.github.froger.instamaterial.Utils;
 
 /**
