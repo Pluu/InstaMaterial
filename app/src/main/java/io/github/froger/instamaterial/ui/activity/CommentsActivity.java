@@ -4,8 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -41,6 +43,8 @@ public class CommentsActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_comments);
 		ButterKnife.bind(this);
 
+		setupComments();
+
 		drawingStartLocation = getIntent().getIntExtra(ARG_DRAWING_START_LOCATION, 0);
 		if (savedInstanceState == null) {
 			contentRoot.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -52,6 +56,24 @@ public class CommentsActivity extends AppCompatActivity {
 				}
 			});
 		}
+	}
+
+	private void setupComments() {
+		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+		rvComments.setLayoutManager(linearLayoutManager);
+		rvComments.setHasFixedSize(true);
+
+		commentsAdapter = new CommentsAdapter(this);
+		rvComments.setAdapter(commentsAdapter);
+		rvComments.setOverScrollMode(View.OVER_SCROLL_NEVER);
+		rvComments.setOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+				if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+					commentsAdapter.setAnimationsLocked(true);
+				}
+			}
+		});
 	}
 
 	private void startIntroAnimation() {
