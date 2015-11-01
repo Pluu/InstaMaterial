@@ -20,9 +20,12 @@ import butterknife.ButterKnife;
 import io.github.froger.instamaterial.R;
 import io.github.froger.instamaterial.Utils;
 import io.github.froger.instamaterial.ui.adapter.FeedAdapter;
+import io.github.froger.instamaterial.ui.view.FeedContextMenu;
+import io.github.froger.instamaterial.ui.view.FeedContextMenuManager;
 
 public class MainActivity extends AppCompatActivity
-	implements FeedAdapter.OnFeedItemClickListener {
+	implements FeedAdapter.OnFeedItemClickListener,
+			   FeedContextMenu.OnFeedContextMenuItemClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -72,6 +75,12 @@ public class MainActivity extends AppCompatActivity
 		feedAdapter = new FeedAdapter(this);
 		feedAdapter.setOnFeedItemClickListener(this);
 		rvFeed.setAdapter(feedAdapter);
+		rvFeed.setOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+				FeedContextMenuManager.getInstance().onScrolled(recyclerView, dx, dy);
+			}
+		});
 	}
 
 	@Override
@@ -142,4 +151,28 @@ public class MainActivity extends AppCompatActivity
 		overridePendingTransition(0, 0);
 	}
 
+	@Override
+	public void onMoreClick(View v, int position) {
+		FeedContextMenuManager.getInstance().toggleContextMenuFromView(v, position, this);
+	}
+
+	@Override
+	public void onReportClick(int feedItem) {
+		FeedContextMenuManager.getInstance().hideContextMenu();
+	}
+
+	@Override
+	public void onSharePhotoClick(int feedItem) {
+		FeedContextMenuManager.getInstance().hideContextMenu();
+	}
+
+	@Override
+	public void onCopyShareUrlClick(int feedItem) {
+		FeedContextMenuManager.getInstance().hideContextMenu();
+	}
+
+	@Override
+	public void onCancelClick(int feedItem) {
+		FeedContextMenuManager.getInstance().hideContextMenu();
+	}
 }
