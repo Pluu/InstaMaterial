@@ -3,10 +3,9 @@ package io.github.froger.instamaterial.ui.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -17,21 +16,19 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import io.github.froger.instamaterial.R;
+import io.github.froger.instamaterial.Utils;
 import io.github.froger.instamaterial.ui.adapter.CommentsAdapter;
 import io.github.froger.instamaterial.ui.view.SendCommentButton;
 
 /**
  * Created by PLUUSYSTEM-NEW on 2015-10-31.
  */
-public class CommentsActivity extends AppCompatActivity
+public class CommentsActivity extends BaseActivity
 	implements SendCommentButton.OnSendClickListener {
 
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 
-	@Bind(R.id.toolbar)
-	Toolbar toolbar;
 	@Bind(R.id.contentRoot)
 	LinearLayout contentRoot;
 	@Bind(R.id.rvComments)
@@ -50,7 +47,6 @@ public class CommentsActivity extends AppCompatActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_comments);
-		ButterKnife.bind(this);
 
 		setupComments();
 		setupSendCommentButton();
@@ -91,6 +87,7 @@ public class CommentsActivity extends AppCompatActivity
 	}
 
 	private void startIntroAnimation() {
+		ViewCompat.setElevation(getToolbar(), 0);
 		contentRoot.setScaleY(0.1f);
 		contentRoot.setPivotY(drawingStartLocation);
 		llAddComment.setTranslationY(100);
@@ -102,6 +99,7 @@ public class CommentsActivity extends AppCompatActivity
 				   .setListener(new AnimatorListenerAdapter() {
 					   @Override
 					   public void onAnimationEnd(Animator animation) {
+						   ViewCompat.setElevation(getToolbar(), Utils.dpToPx(8));
 						   animateContent();
 					   }
 				   })
@@ -114,6 +112,22 @@ public class CommentsActivity extends AppCompatActivity
 					.setInterpolator(new DecelerateInterpolator())
 					.setDuration(200)
 					.start();
+	}
+
+	@Override
+	public void onBackPressed() {
+		ViewCompat.setElevation(getToolbar(), 0);
+		contentRoot.animate()
+				   .translationY(Utils.getScreenHeight(this))
+				   .setDuration(200)
+				   .setListener(new AnimatorListenerAdapter() {
+					   @Override
+					   public void onAnimationEnd(Animator animation) {
+						   CommentsActivity.super.onBackPressed();
+						   overridePendingTransition(0, 0);
+					   }
+				   })
+				   .start();
 	}
 
 	@Override

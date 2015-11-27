@@ -53,7 +53,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 	}
 
 	@Override
-	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		final View view = LayoutInflater.from(context).inflate(R.layout.item_feed, parent, false);
 		CellFeedViewHolder holder = new CellFeedViewHolder(view);
 
@@ -61,6 +61,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 		holder.btnMore.setOnClickListener(this);
 		holder.ivFeedCenter.setOnClickListener(this);
 		holder.btnLike.setOnClickListener(this);
+		holder.ivUserProfile.setOnClickListener(this);
 
 		return holder;
 	}
@@ -182,6 +183,10 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 				updateLikesCounter(holder, true);
 				animatePhotoLike(holder);
 				updateHeartButton(holder, false);
+			}
+		} else if (viewId == R.id.ivUserProfile) {
+			if (onFeedItemClickListener != null) {
+				onFeedItemClickListener.onProfileClick(v);
 			}
 		}
 	}
@@ -305,6 +310,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 	public interface OnFeedItemClickListener {
 		public void onCommentsClick(View v, int position);
 		public void onMoreClick(View v, int position);
+		public void onProfileClick(View v);
 	}
 
 }
